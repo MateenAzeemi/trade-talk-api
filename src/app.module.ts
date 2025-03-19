@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { User } from './users/users.entity';
 import { MailerService } from './mailer/mailer.service';
@@ -8,15 +9,12 @@ import { CalendarModule } from './calendar/calendar.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(), // Loads .env variables
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'tradetalk',
+      url: process.env.DATABASE_URL, // Use Railway's DB URL
       entities: [User],
-      synchronize: true, 
+      synchronize: true, // Set to false in production
     }),
     UsersModule,
     AuthModule,
