@@ -9,6 +9,10 @@ async function bootstrap() {
   
   app.setGlobalPrefix('api'); // 👈 This ensures all routes start with `/api`
 
-  await app.listen(3000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 }
+
 bootstrap();
